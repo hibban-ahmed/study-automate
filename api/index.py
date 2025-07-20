@@ -8,21 +8,18 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Current directory is where this file (e.g. api/index.py) is located
-CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-
-# Base project root (one level above 'api/')
-BASE_DIR = os.path.dirname(CURRENT_DIR)
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))  # 'api' folder
+BASE_DIR = os.path.dirname(CURRENT_DIR)                  # project root
 
 app = FastAPI()
 
-# Static directory inside api folder
+# Mount static directory correctly
 static_dir = os.path.join(CURRENT_DIR, "static")
 if not os.path.isdir(static_dir):
     raise RuntimeError(f"Static directory not found: {static_dir}")
 app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
-# Templates directory at project root level
+# Templates directory at project root
 templates_dir = os.path.join(BASE_DIR, "templates")
 if not os.path.isdir(templates_dir):
     raise RuntimeError(f"Templates directory not found: {templates_dir}")
@@ -34,6 +31,7 @@ API_KEYS = {
 }
 MAIN_API_KEY = os.environ.get("MAIN_API_KEY")
 
+
 def verify_key(x_api_key: str = ""):
     if x_api_key != MAIN_API_KEY:
         raise HTTPException(status_code=403, detail="Unauthorized")
@@ -41,7 +39,6 @@ def verify_key(x_api_key: str = ""):
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
-    # Render your frontend.html template
     return templates.TemplateResponse("frontend.html", {"request": request})
 
 
