@@ -8,17 +8,24 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Current directory is where this file (e.g. api/index.py) is located
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Base project root (one level above 'api/')
+BASE_DIR = os.path.dirname(CURRENT_DIR)
 
 app = FastAPI()
 
-# static inside api folder
+# Static directory inside api folder
 static_dir = os.path.join(CURRENT_DIR, "static")
+if not os.path.isdir(static_dir):
+    raise RuntimeError(f"Static directory not found: {static_dir}")
 app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
-# templates at project root
+# Templates directory at project root level
 templates_dir = os.path.join(BASE_DIR, "templates")
+if not os.path.isdir(templates_dir):
+    raise RuntimeError(f"Templates directory not found: {templates_dir}")
 templates = Jinja2Templates(directory=templates_dir)
 
 API_KEYS = {
