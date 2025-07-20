@@ -49,7 +49,7 @@
     <select id="model-select">
         <option value="gemini">Gemini</option>
         <option value="llama">LLaMA</option>
-</select>
+    </select>
   </div>
   
   <div id="container">
@@ -85,12 +85,9 @@
         return;
       }
 
-      
       outputDiv.textContent = "Processing...";
       submitBtn.disabled = true;
       submitBtn.textContent = "Processing...";
-
-
 
       try {
         const formData = new FormData();
@@ -109,19 +106,13 @@
           outputDiv.textContent = data.result;
         } else {
           outputDiv.innerHTML = `<span style="color: red;">Error: ${data.detail}</span>`;
-
         }
       } catch (err) {
         outputDiv.innerHTML = `<span style="color: red;">Request failed: ${err.message}</span>`;
-
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Process";
       }
-
-      finally {
-     submitBtn.disabled = false;
-     submitBtn.textContent = "Process";
-    }
-
-
     });
   </script>
 </body>

@@ -3,7 +3,7 @@ from fastapi import FastAPI, Form, Request, Depends, HTTPException ## fastapi, d
 from fastapi.responses import HTMLResponse ## html content lata he
 from fastapi.staticfiles import StaticFiles ## serves static files
 from fastapi.templating import Jinja2Templates ##helps in rendering html templates
-from AI_app.Ai_stuff import call_ai_model ## AI wala stuff isme he
+from helper import call_ai_model ## AI wala stuff isme he
 from dotenv import load_dotenv
 load_dotenv()
 
