@@ -8,16 +8,16 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Define BASE_DIR as the root of the project (one level above this file's directory)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 app = FastAPI()
 
-# Mount static files using absolute path
-static_dir = os.path.join(BASE_DIR, "static")
+# static inside api folder
+static_dir = os.path.join(CURRENT_DIR, "static")
 app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
-# Setup Jinja2 templates using absolute path
+# templates at project root
 templates_dir = os.path.join(BASE_DIR, "templates")
 templates = Jinja2Templates(directory=templates_dir)
 
@@ -26,7 +26,6 @@ API_KEYS = {
     "llama": os.environ.get("LLAMA_API_KEY")
 }
 MAIN_API_KEY = os.environ.get("MAIN_API_KEY")
-
 
 def verify_key(x_api_key: str = ""):
     if x_api_key != MAIN_API_KEY:
